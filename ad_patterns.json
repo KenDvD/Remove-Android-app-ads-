@@ -1,0 +1,1216 @@
+{
+  "_meta": {
+    "version": 1,
+    "description": "Ad SDK signature database for APK ad removal tool",
+    "last_updated": "2026-06-21",
+    "url": "https://github.com/example/ad-block-patterns/releases/latest"
+  },
+  "sdks": [
+    {
+      "name": "Pangle / CSJ (ByteDance)",
+      "vendor": "bytedance",
+      "keywords": ["bytedance", "pangle", "csj", "pangolin", "adspark"],
+      "manifest_patterns": [
+        "bytedance.sdk", "bytedance.sdk.openadsdk",
+        "pangle", "pangolin",
+        "ss.android.socialbase", "ss.android.downloadlib",
+        "ss.android.article", "ss.android.ugc",
+        "byted.live", "bytedance.ads",
+        "com.bytedance", "com.pangle",
+        "com.ss.android",
+        "byteads", "adspark", "csj_sdk",
+        "ttopenadsdk", "TTAdSdk",
+        "Pangolin", "Pangle"
+      ],
+      "permission_patterns": [
+        "TT_PANGOLIN", "TTAD",
+        "bytedance.permission",
+        "pangle.permission",
+        "openadsdk.permission"
+      ],
+      "so_patterns": [
+        "libpangle", "libpglbizssdk", "libsgcore", "libbytedance",
+        "libbytedance-ad", "libttopenadsdk", "libpag",
+        "libtobEmbedEncrypt", "libtobEmbedPagEncrypt",
+        "libzeus_direct_dex", "libnms"
+      ],
+      "assets_patterns": [
+        "supplierconfig.json", "pangle_sdk_config",
+        "tt_sdk_settings", "pangle_plugin",
+        "tt_open_ad_sdk", "byte_sdk_assets"
+      ],
+      "res_patterns": [
+        "tt_", "tt_*", "pangle_", "pangolin_",
+        "ss_android_", "byted_*"
+      ],
+      "smali_classes": [
+        "Lcom/bytedance/sdk/openadsdk/",
+        "Lcom/pangle/",
+        "Lcom/ss/android/socialbase/",
+        "Lcom/ss/android/downloadlib/",
+        "Lcom/byted/live/",
+        "Lcom/bykv/vk/openvk/",
+        "Lcom/bytedance/adsdk/"
+      ],
+      "smali_urls": [
+        "pangle.com", "pangleglobal.com",
+        "bytedance.com/ads", "pangolin-sdk",
+        "sm-byte.com", "toutiao.com/api/ad"
+      ]
+    },
+    {
+      "name": "GDT / 广点通 (Tencent)",
+      "vendor": "tencent",
+      "keywords": ["qq.e", "gdt", "tencent.ad", "tencent.gdt"],
+      "manifest_patterns": [
+        "qq.e.ads", "qq.e.comm",
+        "com.qq.e", "com.qq.e.ads",
+        "com.tencent.gdt", "gdt",
+        "tencent.ad", "tencent.gdt",
+        "qq.e.union", "e.qq",
+        "tangram.ad"
+      ],
+      "permission_patterns": [
+        "GDT_SDK", "GDT_AD",
+        "qq.e.permission",
+        "tencent.ad.permission"
+      ],
+      "so_patterns": [
+        "libgdt", "libgdt_ad", "libgdtqjs",
+        "libturingbase", "libtbs",
+        "libfusionwidget", "libMMANDKSignature",
+        "libmosaic_so"
+      ],
+      "assets_patterns": [
+        "gdt_plugin", "gdtplugin",
+        "gdt_adv", "gdt_config",
+        "gdt_sdk", "tangramconfig",
+        "tbs_live", "tbs_sdk",
+        "tencent_ad", "tencentad"
+      ],
+      "res_patterns": [
+        "gdt_", "gdt_*", "qq_e_",
+        "tencent_ad_", "tbs_"
+      ],
+      "smali_classes": [
+        "Lcom/qq/e/",
+        "Lcom/tencent/gdt/",
+        "Lcom/tencent/ad/",
+        "Lcom/tencent/tangram/"
+      ],
+      "smali_urls": [
+        "gdt.qq.com", "e.qq.com",
+        "mi.gdt.qq.com", "sdk.e.qq.com",
+        "tangram.qq.com"
+      ]
+    },
+    {
+      "name": "优量汇 YLH (Tencent)",
+      "vendor": "tencent",
+      "keywords": ["ylh", "youlianghui", "ylh.sdk"],
+      "manifest_patterns": [
+        "ylh.sdk", "ylh.ads",
+        "ylh.api", "ylh.core",
+        "com.ylh", "youlianghui",
+        "tencent.ylh"
+      ],
+      "permission_patterns": [
+        "YLH_SDK", "YLH_AD",
+        "ylh.permission"
+      ],
+      "so_patterns": [
+        "libylh", "libylh_ad"
+      ],
+      "assets_patterns": [
+        "ylh_sdk", "ylh_config",
+        "youlianghui"
+      ],
+      "res_patterns": [
+        "ylh_", "youlianghui_"
+      ],
+      "smali_classes": [
+        "Lcom/ylh/",
+        "Lcom/tencent/ylh/"
+      ],
+      "smali_urls": [
+        "ylh.qq.com", "youlianghui.qq.com"
+      ]
+    },
+    {
+      "name": "Kuaishou Ads / 快手广告",
+      "vendor": "kuaishou",
+      "keywords": ["kwad", "kuaishou.ad", "ksad", "kssdk"],
+      "manifest_patterns": [
+        "kwad.sdk", "kwai.auth",
+        "com.kuaishou", "com.kwai",
+        "com.yxcorp", "ksad",
+        "kssdk", "ksadsdk",
+        "kuaishou.ad", "kuaishou.ads"
+      ],
+      "permission_patterns": [
+        "KW_SDK", "KWAD",
+        "kuaishou.permission",
+        "ksad.permission"
+      ],
+      "so_patterns": [
+        "libksad", "libkssdk", "libkwad",
+        "libkuaishou-ad", "libkwai-ads",
+        "libkwsg", "libkwsgmain"
+      ],
+      "assets_patterns": [
+        "ksad_common_encrypt_image.png",
+        "ksad_idc.json", "ksad_config",
+        "kuaishou_ad_assets", "kwai_ad"
+      ],
+      "res_patterns": [
+        "ksad_", "kwad_", "kwai_",
+        "kuaishou_", "ks_ad_"
+      ],
+      "smali_classes": [
+        "Lcom/kwad/",
+        "Lcom/kuaishou/",
+        "Lcom/kwai/",
+        "Lcom/yxcorp/gifshow/ad/"
+      ],
+      "smali_urls": [
+        "kuaishou.com/api/ad",
+        "ad.kuaishou.com",
+        "ksapisrv.com",
+        "kwad-union.com"
+      ]
+    },
+    {
+      "name": "Baidu Mobads / 百度广告",
+      "vendor": "baidu",
+      "keywords": ["baidu.mobads", "baidu.ads", "bdad", "bdxad", "mobus"],
+      "manifest_patterns": [
+        "baidu.mobads", "baidu.oauth",
+        "baidu.ads", "baidu.ad",
+        "baidu.mobstat", "bd_mobads",
+        "bdad", "bdxad",
+        "com.baidu.mobad", "com.baidu.ads",
+        "mobus", "mobads"
+      ],
+      "permission_patterns": [
+        "BAIDU_AD", "BAIDU_MOBADS",
+        "baidu.ad.permission",
+        "mobads.permission"
+      ],
+      "so_patterns": [
+        "libbdad", "libbd_ad", "libbdxad",
+        "libbaidu_ad", "libbaidumobads",
+        "libbdpush", "libbdmobads"
+      ],
+      "assets_patterns": [
+        "bdxadsdk.jar", "baidu_ad_assets",
+        "baidu_mobads_config", "bd_ad",
+        "bdpush", "mobads_config"
+      ],
+      "res_patterns": [
+        "bdad_", "bdxad_", "mobads_",
+        "baidu_ad_", "bd_ads_"
+      ],
+      "smali_classes": [
+        "Lcom/baidu/mobads/",
+        "Lcom/baidu/ads/",
+        "Lcom/baidu/mobad/",
+        "Lcom/baidu/mobstat/"
+      ],
+      "smali_urls": [
+        "mobads.baidu.com", "mssp.baidu.com",
+        "api.mobads.baidu.com",
+        "cpro.baidu.com"
+      ]
+    },
+    {
+      "name": "Sigmob Ads",
+      "vendor": "sigmob",
+      "keywords": ["sigmob", "sigmob.sdk"],
+      "manifest_patterns": [
+        "sigmob", "sigmob.sdk",
+        "sigmob.ads", "com.sigmob",
+        "sigmob.wind"
+      ],
+      "permission_patterns": [
+        "SIGMOB", "SIGMOB_AD",
+        "sigmob.permission"
+      ],
+      "so_patterns": [
+        "libsigmob", "libsgcore", "libsgmain",
+        "libsgavmp", "libsgsecuritybody"
+      ],
+      "assets_patterns": [
+        "saio_res", "sigmob_sdk",
+        "sigmob_config", "sg_ad"
+      ],
+      "res_patterns": [
+        "sigmob_", "sg_ad_"
+      ],
+      "smali_classes": [
+        "Lcom/sigmob/",
+        "Lcom/sigmob/sdk/"
+      ],
+      "smali_urls": [
+        "sigmob.com", "api.sigmob.cn",
+        "cdn.sigmob.cn"
+      ]
+    },
+    {
+      "name": "BeiZi Ads",
+      "vendor": "beizi",
+      "keywords": ["beizi", "beizi.ad"],
+      "manifest_patterns": [
+        "beizi", "beizi.ad",
+        "beizi.sdk", "com.beizi",
+        "beiziads"
+      ],
+      "permission_patterns": [
+        "BEIZI", "BEIZI_AD"
+      ],
+      "so_patterns": [
+        "libbeizi", "libbeizi_ad",
+        "libbeiziads"
+      ],
+      "assets_patterns": [
+        "beizi_sdk", "beizi_config",
+        "beizisdk"
+      ],
+      "res_patterns": [
+        "beizi_", "beizi_ad_"
+      ],
+      "smali_classes": [
+        "Lcom/beizi/",
+        "Lcom/beizi/ad/"
+      ],
+      "smali_urls": [
+        "beizi.com", "api.beizi.biz",
+        "ad.beizi.biz"
+      ]
+    },
+    {
+      "name": "WindMill Ad Mediation",
+      "vendor": "sigmob",
+      "keywords": ["windmill", "windmill.sdk"],
+      "manifest_patterns": [
+        "windmill", "windmill.sdk",
+        "windmill.ads", "com.windmill",
+        "sxwl.ads", "xadsdk",
+        "xad.sdk"
+      ],
+      "permission_patterns": [
+        "WINDMILL", "WINDMILL_AD"
+      ],
+      "so_patterns": [
+        "libwindmill", "libwindmill-ad",
+        "libsxwl"
+      ],
+      "assets_patterns": [
+        "windmill_sdk", "windmill_config",
+        "sxwl_ad", "xad_sdk"
+      ],
+      "res_patterns": [
+        "windmill_", "sxwl_",
+        "xad_"
+      ],
+      "smali_classes": [
+        "Lcom/windmill/",
+        "Lcom/windmill/sdk/",
+        "Lcom/sxwl/ads/"
+      ],
+      "smali_urls": [
+        "windmill-ad.com", "sxwl.com"
+      ]
+    },
+    {
+      "name": "Mintegral / MTG Ads",
+      "vendor": "mintegral",
+      "keywords": ["mintegral", "mtg.sdk", "mbridge"],
+      "manifest_patterns": [
+        "mintegral", "mtg.sdk",
+        "mtg.ads", "com.mintegral",
+        "mbridge", "mintegral.msdk"
+      ],
+      "permission_patterns": [
+        "MINTEGRAL", "MTG_AD",
+        "mintegral.permission"
+      ],
+      "so_patterns": [
+        "libmintegral", "libmtg",
+        "libmbridge", "libplayercore",
+        "libmtgad", "libMintergal"
+      ],
+      "assets_patterns": [
+        "mintegral_sdk", "mtg_config",
+        "mbridge_assets"
+      ],
+      "res_patterns": [
+        "mbridge_", "mtg_ad_",
+        "mintegral_"
+      ],
+      "smali_classes": [
+        "Lcom/mintegral/",
+        "Lcom/mbridge/",
+        "Lcom/mtg/"
+      ],
+      "smali_urls": [
+        "mintegral.com", "api.mintegral.com",
+        "mbridgeads.com"
+      ]
+    },
+    {
+      "name": "Xiaomi Ads / 小米广告",
+      "vendor": "xiaomi",
+      "keywords": ["miui.ads", "mimo.sdk", "xiaomi.ad", "miad"],
+      "manifest_patterns": [
+        "miui.ads", "mimo.sdk",
+        "xiaomi.ad", "xiaomi.ads",
+        "com.xiaomi.ad", "com.miui.ads",
+        "miad", "miui.ad",
+        "miui.adsdk", "mimo"
+      ],
+      "permission_patterns": [
+        "MIUI_ADS", "XIAOMI_AD",
+        "mimo.permission"
+      ],
+      "so_patterns": [
+        "libmiad", "libmimo",
+        "libxiaomi-ad"
+      ],
+      "assets_patterns": [
+        "miui_ad_assets", "xiaomi_ad_config",
+        "mimo_sdk_config"
+      ],
+      "res_patterns": [
+        "miui_ad_", "mimo_",
+        "xiaomi_ad_"
+      ],
+      "smali_classes": [
+        "Lcom/xiaomi/ad/",
+        "Lcom/miui/ad/",
+        "Lcom/mimo/sdk/"
+      ],
+      "smali_urls": [
+        "ad.xiaomi.com", "api.ad.xiaomi.com",
+        "mimo.xiaomi.com"
+      ]
+    },
+    {
+      "name": "Huawei Ads / 华为广告",
+      "vendor": "huawei",
+      "keywords": ["huawei.hms.ads", "huawei.ads"],
+      "manifest_patterns": [
+        "huawei.hms.ads", "huawei.ads",
+        "com.huawei.hms.ads", "huawei.ad",
+        "huawei.ads.consent", "huawei.ads.vast",
+        "huawei.hms.ads.consent"
+      ],
+      "permission_patterns": [
+        "HUAWEI_ADS", "HMS_ADS",
+        "huawei.ads.permission"
+      ],
+      "so_patterns": [
+        "libhuawei_ads", "libhmsads",
+        "libagccrash"
+      ],
+      "assets_patterns": [
+        "huawei_ads_sdk", "hms_ads_config",
+        "hmsads"
+      ],
+      "res_patterns": [
+        "huawei_ad_", "hms_ads_"
+      ],
+      "smali_classes": [
+        "Lcom/huawei/hms/ads/",
+        "Lcom/huawei/openalliance/ad/"
+      ],
+      "smali_urls": [
+        "ad.huawei.com", "ads.huawei.com",
+        "hms-ads.huawei.com"
+      ]
+    },
+    {
+      "name": "OPPO Ads",
+      "vendor": "oppo",
+      "keywords": ["oppo.ad", "heytap.ad", "coloros.ads"],
+      "manifest_patterns": [
+        "oppo.ad", "oppo.ads",
+        "com.oppo.ad", "com.oppo.mobad",
+        "heytap.ad", "heytap.ads",
+        "coloros.ads", "coloros.ad",
+        "oplay.ad"
+      ],
+      "permission_patterns": [
+        "OPPO_AD", "HEYTAP_AD",
+        "oppo.ad.permission"
+      ],
+      "so_patterns": [
+        "liboppo_ad", "libheytap_ad",
+        "liboplay_ad"
+      ],
+      "assets_patterns": [
+        "oppo_ad_config", "heytap_ad_sdk",
+        "oplay_ad"
+      ],
+      "res_patterns": [
+        "oppo_ad_", "heytap_ad_"
+      ],
+      "smali_classes": [
+        "Lcom/oppo/ad/",
+        "Lcom/heytap/ad/",
+        "Lcom/coloros/ad/"
+      ],
+      "smali_urls": [
+        "ad.oppo.com", "ad.heytap.com",
+        "ads.coloros.com"
+      ]
+    },
+    {
+      "name": "vivo Ads",
+      "vendor": "vivo",
+      "keywords": ["vivo.ad", "vivo.mobads"],
+      "manifest_patterns": [
+        "vivo.ad", "vivo.ads",
+        "com.vivo.ad", "com.vivo.mobad",
+        "vivo.mobads", "vivo.adunion"
+      ],
+      "permission_patterns": [
+        "VIVO_AD", "VIVO_ADS"
+      ],
+      "so_patterns": [
+        "libvivo_ad", "libvivo_ad_sdk"
+      ],
+      "assets_patterns": [
+        "vivo_ad_config", "vivo_ads_sdk"
+      ],
+      "res_patterns": [
+        "vivo_ad_", "vivo_ads_"
+      ],
+      "smali_classes": [
+        "Lcom/vivo/ad/",
+        "Lcom/vivo/mobad/"
+      ],
+      "smali_urls": [
+        "ad.vivo.com", "adsdk.vivo.com.cn"
+      ]
+    },
+    {
+      "name": "AdMob (Google)",
+      "vendor": "google",
+      "keywords": ["google.android.gms.ads", "admob"],
+      "manifest_patterns": [
+        "google.android.gms.ads",
+        "admob", "com.google.android.gms.ads",
+        "com.google.ads"
+      ],
+      "permission_patterns": [
+        "com.google.android.gms.permission.AD_ID"
+      ],
+      "so_patterns": [
+        "libadmob", "libgms_ads"
+      ],
+      "assets_patterns": [
+        "admob_assets", "gma_sdk"
+      ],
+      "res_patterns": [
+        "admob_", "gma_"
+      ],
+      "smali_classes": [
+        "Lcom/google/android/gms/ads/",
+        "Lcom/google/ads/"
+      ],
+      "smali_urls": [
+        "googleadapis.com", "admob.com",
+        "doubleclick.net"
+      ]
+    },
+    {
+      "name": "Unity Ads",
+      "vendor": "unity",
+      "keywords": ["unity3d.ads", "unity.ads"],
+      "manifest_patterns": [
+        "unity3d.ads", "unity.ads",
+        "com.unity3d.ads", "com.unity3d.services.ads",
+        "unityads"
+      ],
+      "permission_patterns": [
+        "UNITY_ADS"
+      ],
+      "so_patterns": [
+        "libunityads", "libunity-ad"
+      ],
+      "assets_patterns": [
+        "unity_ads_config", "unityads"
+      ],
+      "res_patterns": [
+        "unity_ads_"
+      ],
+      "smali_classes": [
+        "Lcom/unity3d/ads/",
+        "Lcom/unity3d/services/ads/"
+      ],
+      "smali_urls": [
+        "unityads.unity3d.com",
+        "webview.unityads.unity3d.com"
+      ]
+    },
+    {
+      "name": "AppLovin Ads",
+      "vendor": "applovin",
+      "keywords": ["applovin", "applovin.sdk"],
+      "manifest_patterns": [
+        "applovin", "applovin.sdk",
+        "com.applovin", "applovin.ad"
+      ],
+      "permission_patterns": [
+        "APPLOVIN"
+      ],
+      "so_patterns": [
+        "libapplovin", "libapplovin-ad"
+      ],
+      "assets_patterns": [
+        "applovin_sdk", "applovin_config"
+      ],
+      "res_patterns": [
+        "applovin_"
+      ],
+      "smali_classes": [
+        "Lcom/applovin/"
+      ],
+      "smali_urls": [
+        "applovin.com", "api.applovin.com"
+      ]
+    },
+    {
+      "name": "Vungle Ads",
+      "vendor": "vungle",
+      "keywords": ["vungle", "vungle.sdk"],
+      "manifest_patterns": [
+        "vungle", "vungle.ads",
+        "com.vungle", "vungle.warren"
+      ],
+      "permission_patterns": [
+        "VUNGLE"
+      ],
+      "so_patterns": [
+        "libvungle", "libvngl"
+      ],
+      "assets_patterns": [
+        "vungle_sdk", "vungle_config"
+      ],
+      "res_patterns": [
+        "vungle_"
+      ],
+      "smali_classes": [
+        "Lcom/vungle/"
+      ],
+      "smali_urls": [
+        "vungle.com", "api.vungle.com"
+      ]
+    },
+    {
+      "name": "ironSource Ads",
+      "vendor": "ironsource",
+      "keywords": ["ironsource", "ironsource.sdk"],
+      "manifest_patterns": [
+        "ironsource", "ironsource.sdk",
+        "com.ironsource", "ironsource.mediations"
+      ],
+      "permission_patterns": [
+        "IRONSOURCE"
+      ],
+      "so_patterns": [
+        "libironsource", "libis_ad"
+      ],
+      "assets_patterns": [
+        "ironsource_sdk", "ironsource_config"
+      ],
+      "res_patterns": [
+        "ironsource_"
+      ],
+      "smali_classes": [
+        "Lcom/ironsource/"
+      ],
+      "smali_urls": [
+        "ironsrc.com", "api.ironsrc.com"
+      ]
+    },
+    {
+      "name": "Chartboost Ads",
+      "vendor": "chartboost",
+      "keywords": ["chartboost"],
+      "manifest_patterns": [
+        "chartboost", "com.chartboost"
+      ],
+      "so_patterns": [
+        "libchartboost", "libcb_ad"
+      ],
+      "assets_patterns": [
+        "chartboost_sdk", "chartboost_config"
+      ],
+      "smali_classes": [
+        "Lcom/chartboost/"
+      ],
+      "smali_urls": [
+        "chartboost.com", "live.chartboost.com"
+      ]
+    },
+    {
+      "name": "Tapjoy Ads",
+      "vendor": "tapjoy",
+      "keywords": ["tapjoy"],
+      "manifest_patterns": [
+        "tapjoy", "com.tapjoy"
+      ],
+      "so_patterns": [
+        "libtapjoy", "libtj_ad"
+      ],
+      "assets_patterns": [
+        "tapjoy_sdk", "tapjoy_config"
+      ],
+      "smali_classes": [
+        "Lcom/tapjoy/"
+      ],
+      "smali_urls": [
+        "tapjoy.com", "api.tapjoy.com"
+      ]
+    },
+    {
+      "name": "InMobi Ads",
+      "vendor": "inmobi",
+      "keywords": ["inmobi", "inmobi.sdk"],
+      "manifest_patterns": [
+        "inmobi", "inmobi.ads",
+        "inmobi.sdk", "com.inmobi"
+      ],
+      "so_patterns": [
+        "libinmobi", "libinmobi_ad"
+      ],
+      "assets_patterns": [
+        "inmobi_sdk", "inmobi_config"
+      ],
+      "smali_classes": [
+        "Lcom/inmobi/"
+      ],
+      "smali_urls": [
+        "inmobi.com", "api.inmobi.com"
+      ]
+    },
+    {
+      "name": "AdColony Ads",
+      "vendor": "adcolony",
+      "keywords": ["adcolony"],
+      "manifest_patterns": [
+        "adcolony", "com.adcolony",
+        "adcolony.sdk"
+      ],
+      "so_patterns": [
+        "libadcolony", "libadcolony_ad"
+      ],
+      "assets_patterns": [
+        "adcolony_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/adcolony/"
+      ],
+      "smali_urls": [
+        "adcolony.com", "api.adcolony.com"
+      ]
+    },
+    {
+      "name": "MoPub Ads (discontinued but legacy)",
+      "vendor": "mopub",
+      "keywords": ["mopub", "mopub.sdk"],
+      "manifest_patterns": [
+        "mopub", "com.mopub",
+        "mopub.mobileads"
+      ],
+      "so_patterns": [
+        "libmopub"
+      ],
+      "assets_patterns": [
+        "mopub_sdk", "mopub_config"
+      ],
+      "smali_classes": [
+        "Lcom/mopub/"
+      ],
+      "smali_urls": [
+        "mopub.com", "ads.mopub.com"
+      ]
+    },
+    {
+      "name": "Fyber / Digital Turbine",
+      "vendor": "fyber",
+      "keywords": ["fyber", "digitalturbine"],
+      "manifest_patterns": [
+        "fyber", "com.fyber",
+        "digitalturbine", "com.digitalturbine"
+      ],
+      "so_patterns": [
+        "libfyber"
+      ],
+      "assets_patterns": [
+        "fyber_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/fyber/",
+        "Lcom/digitalturbine/"
+      ],
+      "smali_urls": [
+        "fyber.com", "api.fyber.com"
+      ]
+    },
+    {
+      "name": "Ogury Ads",
+      "vendor": "ogury",
+      "keywords": ["ogury"],
+      "manifest_patterns": [
+        "ogury", "com.ogury"
+      ],
+      "so_patterns": [
+        "libogury"
+      ],
+      "smali_classes": [
+        "Lcom/ogury/"
+      ]
+    },
+    {
+      "name": "Smaato Ads",
+      "vendor": "smaato",
+      "keywords": ["smaato"],
+      "manifest_patterns": [
+        "smaato", "com.smaato"
+      ],
+      "so_patterns": [
+        "libsmaato"
+      ],
+      "smali_classes": [
+        "Lcom/smaato/"
+      ],
+      "smali_urls": [
+        "smaato.com", "api.smaato.net"
+      ]
+    },
+    {
+      "name": "Verve Ads",
+      "vendor": "verve",
+      "keywords": ["verve"],
+      "manifest_patterns": [
+        "verve", "com.verve"
+      ],
+      "smali_classes": [
+        "Lcom/verve/"
+      ]
+    },
+    {
+      "name": "AppNexus / Xandr",
+      "vendor": "appnexus",
+      "keywords": ["appnexus", "xandr", "adnxs"],
+      "manifest_patterns": [
+        "appnexus", "adnxs",
+        "xandr", "com.appnexus"
+      ],
+      "smali_classes": [
+        "Lcom/appnexus/"
+      ],
+      "smali_urls": [
+        "appnexus.com", "adnxs.com"
+      ]
+    },
+    {
+      "name": "MyTarget / VK Ads (Mail.ru)",
+      "vendor": "mytarget",
+      "keywords": ["mytarget", "vkontakte.ad", "mailru.ad"],
+      "manifest_patterns": [
+        "mytarget", "com.my.target",
+        "vkontakte.ad", "com.vk.ads",
+        "mailru.ad"
+      ],
+      "so_patterns": [
+        "libmytarget"
+      ],
+      "assets_patterns": [
+        "mytarget_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/my/target/",
+        "Lcom/vk/ads/"
+      ],
+      "smali_urls": [
+        "target.my.com", "ad.mail.ru"
+      ]
+    },
+    {
+      "name": "Yandex Ads",
+      "vendor": "yandex",
+      "keywords": ["yandex.mobile.ads", "yandex.ad"],
+      "manifest_patterns": [
+        "yandex.mobile.ads", "yandex.ad",
+        "com.yandex.mobile.ads"
+      ],
+      "so_patterns": [
+        "libyandex_ads", "libyandexmobileads"
+      ],
+      "assets_patterns": [
+        "yandex_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/yandex/mobile/ads/"
+      ],
+      "smali_urls": [
+        "yandex.ru/ads", "adsdk.yandex.ru"
+      ]
+    },
+    {
+      "name": "Facebook Audience Network / Meta Ads",
+      "vendor": "meta",
+      "keywords": ["facebook.ads", "meta.ads", "audiencenetwork"],
+      "manifest_patterns": [
+        "facebook.ads", "com.facebook.ads",
+        "meta.ads", "audiencenetwork",
+        "facebook.audience"
+      ],
+      "so_patterns": [
+        "libaudiencenetwork"
+      ],
+      "assets_patterns": [
+        "facebook_ads_sdk", "audience_network"
+      ],
+      "res_patterns": [
+        "fan_", "audience_network_"
+      ],
+      "smali_classes": [
+        "Lcom/facebook/ads/",
+        "Lcom/facebook/audience/"
+      ],
+      "smali_urls": [
+        "facebook.com/ad", "fbcdn.net/creative"
+      ]
+    },
+    {
+      "name": "淘宝/阿里妈妈 Tanx Ads",
+      "vendor": "alibaba",
+      "keywords": ["tanx", "alimama", "alibaba.ads", "taobao.ad"],
+      "manifest_patterns": [
+        "tanx", "alimama",
+        "alibaba.ads", "alibaba.ad",
+        "com.alibaba.sdk.ad",
+        "taobao.ad"
+      ],
+      "permission_patterns": [
+        "ALIMAMA", "TANX"
+      ],
+      "so_patterns": [
+        "libtanx", "libalimama_ad"
+      ],
+      "assets_patterns": [
+        "alibaba_ad_sdk", "alimama_config",
+        "tanx_sdk"
+      ],
+      "res_patterns": [
+        "tanx_", "alimama_"
+      ],
+      "smali_classes": [
+        "Lcom/alibaba/sdk/ad/",
+        "Lcom/alimama/",
+        "Lcom/tanx/"
+      ],
+      "smali_urls": [
+        "tanx.com", "alimama.cn",
+        "ad.alibaba.com"
+      ]
+    },
+    {
+      "name": "360 Ads / 聚胜万合",
+      "vendor": "360",
+      "keywords": ["qihoo.ad", "qiku.ad", "360ad"],
+      "manifest_patterns": [
+        "qihoo.ad", "qiku.ad",
+        "com.qihoo.ad", "360ad",
+        "qihui.ad"
+      ],
+      "permission_patterns": [
+        "QIHOO_AD"
+      ],
+      "so_patterns": [
+        "libqihoo_ad", "lib360ad"
+      ],
+      "assets_patterns": [
+        "qihoo_ad_sdk", "360ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/qihoo/ad/",
+        "Lcom/qiku/ad/"
+      ],
+      "smali_urls": [
+        "ad.360.cn", "sdk.ad.360.cn"
+      ]
+    },
+    {
+      "name": "Meituan Ads / 美团广告",
+      "vendor": "meituan",
+      "keywords": ["meituan.ad", "mtadsdk"],
+      "manifest_patterns": [
+        "meituan.ad", "mtadsdk",
+        "com.meituan.ad", "com.sankuai.ad"
+      ],
+      "so_patterns": [
+        "libmtadsdk"
+      ],
+      "assets_patterns": [
+        "meituan_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/meituan/ad/",
+        "Lcom/sankuai/ad/"
+      ],
+      "smali_urls": [
+        "ad.meituan.com"
+      ]
+    },
+    {
+      "name": "Bilibili Ads / B站广告",
+      "vendor": "bilibili",
+      "keywords": ["bilibili.ad", "bilisdk.ad"],
+      "manifest_patterns": [
+        "bilibili.ad", "bilisdk.ad",
+        "com.bilibili.ad", "tv.danmaku.bili.ad"
+      ],
+      "smali_classes": [
+        "Lcom/bilibili/ad/",
+        "Ltv/danmaku/bili/ad/"
+      ],
+      "smali_urls": [
+        "ad.bilibili.com"
+      ]
+    },
+    {
+      "name": "JD Ads / 京东广告",
+      "vendor": "jd",
+      "keywords": ["jd.ad", "kepler.ad", "jingdong.ad"],
+      "manifest_patterns": [
+        "jd.ad", "kepler.ad",
+        "jingdong.ad", "com.jd.ad",
+        "com.kepler.ad"
+      ],
+      "permission_patterns": [
+        "JD_AD", "JINGDONG_AD"
+      ],
+      "so_patterns": [
+        "libjd_ad", "libkepler"
+      ],
+      "assets_patterns": [
+        "jd_ad_sdk", "kepler_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/jd/ad/",
+        "Lcom/kepler/"
+      ],
+      "smali_urls": [
+        "ad.jd.com", "kepler.jd.com"
+      ]
+    },
+    {
+      "name": "NetEase Ads / 网易广告",
+      "vendor": "netease",
+      "keywords": ["netease.ad", "neadsdk"],
+      "manifest_patterns": [
+        "netease.ad", "neadsdk",
+        "com.netease.ad", "com.netease.nis"
+      ],
+      "so_patterns": [
+        "libneadsdk"
+      ],
+      "assets_patterns": [
+        "netease_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/netease/ad/",
+        "Lcom/netease/nis/"
+      ],
+      "smali_urls": [
+        "ad.netease.com"
+      ]
+    },
+    {
+      "name": "Sohu Ads / 搜狐广告",
+      "vendor": "sohu",
+      "keywords": ["sohu.ad", "sohusdk"],
+      "manifest_patterns": [
+        "sohu.ad", "sohusdk",
+        "com.sohu.ad", "com.sohu.tv.ad"
+      ],
+      "assets_patterns": [
+        "sohu_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/sohu/ad/"
+      ],
+      "smali_urls": [
+        "ad.sohu.com"
+      ]
+    },
+    {
+      "name": "UC / Alibaba Ads",
+      "vendor": "alibaba",
+      "keywords": ["ucweb.ad", "ucadsdk", "alipay.ad"],
+      "manifest_patterns": [
+        "ucweb.ad", "ucadsdk",
+        "com.uc.addetect", "alipay.ad",
+        "uc.ad.sdk"
+      ],
+      "so_patterns": [
+        "libucadsdk", "libuc_ad"
+      ],
+      "assets_patterns": [
+        "uc_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/uc/addetect/",
+        "Lcom/alipay/ad/"
+      ],
+      "smali_urls": [
+        "ad.uc.cn", "ucadsdk.ucweb.com"
+      ]
+    },
+    {
+      "name": "Lenovo Ads / 联想广告",
+      "vendor": "lenovo",
+      "keywords": ["lenovo.ad", "lenovoadsdk"],
+      "manifest_patterns": [
+        "lenovo.ad", "lenovoadsdk",
+        "com.lenovo.ad", "com.zui.ad"
+      ],
+      "assets_patterns": [
+        "lenovo_ad_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/lenovo/ad/",
+        "Lcom/zui/ad/"
+      ]
+    },
+    {
+      "name": "Mobvista / NativeX / Rex",
+      "vendor": "mobvista",
+      "keywords": ["mobvista", "nativex", "rexad"],
+      "manifest_patterns": [
+        "mobvista", "nativex",
+        "rexad", "com.mobvista",
+        "com.nativex"
+      ],
+      "so_patterns": [
+        "libmobvista", "libnativex"
+      ],
+      "assets_patterns": [
+        "mobvista_sdk"
+      ],
+      "smali_classes": [
+        "Lcom/mobvista/",
+        "Lcom/nativex/"
+      ],
+      "smali_urls": [
+        "mobvista.com"
+      ]
+    },
+    {
+      "name": "AnyMind / AdAsia Holdings",
+      "vendor": "anymind",
+      "keywords": ["anymind", "adasia"],
+      "manifest_patterns": [
+        "anymind", "adasia",
+        "com.anymind"
+      ],
+      "smali_classes": [
+        "Lcom/anymind/"
+      ]
+    },
+    {
+      "name": "Admixer / AdMixer SDK",
+      "vendor": "admixer",
+      "keywords": ["admixer"],
+      "manifest_patterns": [
+        "admixer", "com.admixer"
+      ],
+      "smali_classes": [
+        "Lcom/admixer/"
+      ]
+    },
+    {
+      "name": "PubMatic Ads",
+      "vendor": "pubmatic",
+      "keywords": ["pubmatic"],
+      "manifest_patterns": [
+        "pubmatic", "com.pubmatic"
+      ],
+      "smali_classes": [
+        "Lcom/pubmatic/"
+      ],
+      "smali_urls": [
+        "pubmatic.com"
+      ]
+    },
+    {
+      "name": "Criteo Ads",
+      "vendor": "criteo",
+      "keywords": ["criteo"],
+      "manifest_patterns": [
+        "criteo", "com.criteo"
+      ],
+      "so_patterns": [
+        "libcriteo"
+      ],
+      "smali_classes": [
+        "Lcom/criteo/"
+      ],
+      "smali_urls": [
+        "criteo.com"
+      ]
+    },
+    {
+      "name": "Shared Ad SDK Libs / 通用广告库",
+      "vendor": "generic",
+      "keywords": ["adsdk", "adcore", "adlib", "openadsdk", "advlion", "iad", "admanager"],
+      "manifest_patterns": [
+        "com.adsdk", "com.adcore",
+        "com.adlib", "openadsdk",
+        "advlion", "iad.sdk",
+        "com.admanager", "com.ad.sdk",
+        "com.adservice", "com.admodule"
+      ],
+      "permission_patterns": [
+        "openadsdk", "openadsdk.permission"
+      ],
+      "so_patterns": [
+        "libadsdk", "libadcore",
+        "libadlib", "libopenadsdk",
+        "libadvlion", "libiad"
+      ],
+      "assets_patterns": [
+        "adsdk_config", "adcore_config",
+        "adlib_config", "openadsdk_config"
+      ],
+      "res_patterns": [
+        "adsdk_", "adcore_",
+        "adlib_", "openad_"
+      ],
+      "smali_classes": [
+        "Lcom/adsdk/",
+        "Lcom/adcore/",
+        "Lcom/adlib/",
+        "Lcom/advlion/"
+      ],
+      "smali_urls": [
+        "adsdk.com", "openadsdk.com"
+      ]
+    }
+  ],
+  "dependency_map": {
+    "ylh": ["gdt", "tencent"],
+    "windmill": ["sigmob", "pangle", "gdt"],
+    "applovin": ["mintegral"],
+    "mopub": ["admob", "facebook"]
+  },
+  "allowlist": {
+    "permissions": ["AD_ID"],
+    "classes": ["com.google.android.gms.ads.identifier.AdvertisingIdClient"]
+  }
+}
