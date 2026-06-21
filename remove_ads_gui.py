@@ -1,13 +1,17 @@
 import json
 import os
 import queue
+import sys
 import threading
+import webbrowser
 from pathlib import Path
 from tkinter import filedialog, messagebox
 
 import customtkinter as ctk
+from PIL import Image, ImageDraw
 
 from remove_ads import process_apk, detect_ad_sdks, _PATTERNS, reload_patterns
+from pattern_updater import check_and_update
 
 # 可选拖拽支持
 try:
@@ -17,6 +21,15 @@ except ImportError:
     HAS_DND = False
 
 CONFIG_PATH = Path.home() / ".apk_cleaner_config.json"
+
+
+def _resource_path(relative_path):
+    """获取资源文件路径，兼容 PyInstaller 打包后的 _MEIPASS 临时目录。"""
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 
 
 def _load_config():
@@ -64,6 +77,12 @@ class ApkModApp(ctk.CTk):
         self.geometry("900x720")
         self.resizable(True, True)
         self.minsize(800, 600)
+
+        # 设置窗口图标（兼容 PyInstaller 打包）
+        try:
+            self.iconbitmap(_resource_path("icon.ico"))
+        except Exception:
+            pass
 
         # 尝试恢复窗口位置
         saved_geo = self._config.get("window_geometry", "")
@@ -128,10 +147,238 @@ class ApkModApp(ctk.CTk):
         _save_config(self._config)
         self.destroy()
 
+    def _check_update_from_about(self):
+        """从关于界面触发模式文件更新检查（后台线程，不阻塞 UI）。"""
+        self.safe_log("=" * 50)
+        self.safe_log("正在手动检查模式文件更新...")
+
+        def _run():
+            try:
+                updated = check_and_update(force=True, log=self.safe_log)
+                self.after(0, lambda: self._on_check_update_done(updated))
+            except Exception as e:
+                self.safe_log(f"[错误] 更新检查失败: {e}")
+                self.after(0, lambda err=str(e): messagebox.showerror("检查失败", err))
+
+        threading.Thread(target=_run, daemon=True).start()
+
+    def _on_check_update_done(self, updated):
+        """更新检查完成后的主线程回调。"""
+        if updated:
+            messagebox.showinfo("更新成功", "模式数据库已更新到最新版本！")
+        else:
+            messagebox.showinfo("无需更新", "当前已是最新版本，或检查/下载失败。请查看日志了解详情。")
+
+    def _load_avatar_image(self, size=160):
+        """加载头像并裁剪为圆形，兼容打包后的资源路径。"""
+        avatar_path = _resource_path("photo.jpg")
+        try:
+            img = Image.open(avatar_path).convert("RGBA")
+            img = img.resize((size, size), getattr(Image, "Resampling", Image).LANCZOS)
+
+            mask = Image.new("L", (size, size), 0)
+            draw = ImageDraw.Draw(mask)
+            draw.ellipse((0, 0, size, size), fill=255)
+
+            circular = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+            circular.paste(img, (0, 0), mask)
+            return ctk.CTkImage(light_image=circular, dark_image=circular, size=(size, size))
+        except Exception:
+            return None
+
+    def show_about(self):
+        """打开关于界面。"""
+        dialog = ctk.CTkToplevel(self)
+        dialog.title("关于 · APK 纯净大师")
+        dialog.geometry("560x460")
+        dialog.resizable(False, False)
+        dialog.grab_set()
+        dialog.lift()
+        dialog.focus_force()
+
+        dialog.update_idletasks()
+        x = self.winfo_x() + (self.winfo_width() - 560) // 2
+        y = self.winfo_y() + (self.winfo_height() - 460) // 2
+        dialog.geometry(f"+{x}+{y}")
+
+        # 顶部横幅
+        banner = ctk.CTkFrame(dialog, height=70, fg_color=["#3B8ED0", "#1F6AA5"])
+        banner.pack(fill="x", padx=15, pady=(15, 10))
+        banner.pack_propagate(False)
+
+        ctk.CTkLabel(
+            banner,
+            text="APK 纯净大师",
+            font=ctk.CTkFont(size=22, weight="bold"),
+            text_color="white",
+        ).pack(side="left", padx=20, pady=10)
+
+        ctk.CTkLabel(
+            banner,
+            text="v2.0",
+            font=ctk.CTkFont(size=16, weight="bold"),
+            text_color="white",
+        ).pack(side="right", padx=20, pady=10)
+
+        # 中间内容区
+        content = ctk.CTkFrame(dialog, fg_color="transparent")
+        content.pack(fill="both", expand=True, padx=15, pady=5)
+        content.grid_columnconfigure(1, weight=1)
+
+        # 左侧头像
+        avatar_frame = ctk.CTkFrame(content, fg_color="transparent", width=180)
+        avatar_frame.grid(row=0, column=0, sticky="nw", padx=(0, 15))
+        avatar_frame.grid_propagate(False)
+
+        ctk.CTkLabel(
+            avatar_frame,
+            text="头像",
+            font=ctk.CTkFont(size=12),
+            text_color="#888888",
+        ).pack(anchor="w", pady=(0, 8))
+
+        avatar_img = self._load_avatar_image(size=150)
+        if avatar_img:
+            avatar_lbl = ctk.CTkLabel(avatar_frame, image=avatar_img, text="")
+            avatar_lbl.pack()
+            avatar_lbl.image = avatar_img  # 防止图像被垃圾回收
+        else:
+            placeholder = ctk.CTkFrame(avatar_frame, width=150, height=150, corner_radius=75,
+                                       fg_color=["#E0E0E0", "#404040"])
+            placeholder.pack()
+            ctk.CTkLabel(placeholder, text="无头像", font=ctk.CTkFont(size=12)).place(relx=0.5, rely=0.5, anchor="center")
+
+        # 右侧项目信息
+        info_frame = ctk.CTkFrame(content, fg_color="transparent")
+        info_frame.grid(row=0, column=1, sticky="nsew")
+
+        ctk.CTkLabel(
+            info_frame,
+            text="项目信息",
+            font=ctk.CTkFont(size=13, weight="bold"),
+            text_color="#888888",
+        ).pack(anchor="w", pady=(0, 10))
+
+        info_box = ctk.CTkFrame(info_frame, fg_color="transparent")
+        info_box.pack(fill="both", expand=True)
+
+        def add_info_row(label, value, is_link=False, link_url=None):
+            row = ctk.CTkFrame(info_box, fg_color="transparent")
+            row.pack(fill="x", pady=4)
+            ctk.CTkLabel(
+                row,
+                text=f"{label}:",
+                width=60,
+                anchor="e",
+                font=ctk.CTkFont(weight="bold"),
+            ).pack(side="left")
+            if is_link:
+                link = ctk.CTkLabel(
+                    row,
+                    text=value,
+                    anchor="w",
+                    font=ctk.CTkFont(size=12),
+                    text_color=["#1F6AA5", "#3B8ED0"],
+                    cursor="hand2",
+                )
+                link.pack(side="left", padx=(8, 0))
+                link.bind("<Button-1>", lambda e: webbrowser.open(link_url))
+            else:
+                ctk.CTkLabel(
+                    row,
+                    text=value,
+                    anchor="w",
+                    font=ctk.CTkFont(size=12),
+                ).pack(side="left", padx=(8, 0))
+
+        add_info_row("作者", "KenDvD")
+        add_info_row("版本", "v2.0")
+        add_info_row(
+            "仓库",
+            "KenDvD / Remove-Android-app-ads-",
+            is_link=True,
+            link_url="https://github.com/KenDvD/Remove-Android-app-ads-",
+        )
+
+        desc = ctk.CTkTextbox(
+            info_box,
+            height=80,
+            font=ctk.CTkFont(size=12),
+            wrap="word",
+        )
+        desc.pack(fill="x", pady=(10, 0))
+        desc.insert(
+            "1.0",
+            "一个基于 Python + customtkinter 的 APK 去广告工具，支持清理 "
+            "AndroidManifest、Assets、.so、Smali 与 Res 中的广告 SDK 残留。",
+        )
+        desc.configure(state="disabled")
+
+        # 开源声明横幅
+        notice = ctk.CTkFrame(
+            dialog,
+            fg_color=["#FF6B6B", "#A83232"],
+            corner_radius=6,
+        )
+        notice.pack(fill="x", padx=15, pady=(10, 0))
+        ctk.CTkLabel(
+            notice,
+            text="该工具完全开源免费！如果你买到此软件，那么你被坑了。",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color="white",
+        ).pack(padx=15, pady=10)
+
+        # 底部按钮
+        btn_frame = ctk.CTkFrame(dialog, fg_color="transparent")
+        btn_frame.pack(fill="x", padx=15, pady=(15, 20))
+
+        ctk.CTkButton(
+            btn_frame,
+            text="检测更新",
+            width=120,
+            height=36,
+            command=self._check_update_from_about,
+        ).pack(side="left")
+
+        ctk.CTkButton(
+            btn_frame,
+            text="打开 GitHub",
+            width=120,
+            height=36,
+            command=lambda: webbrowser.open("https://github.com/KenDvD/Remove-Android-app-ads-"),
+        ).pack(side="left", padx=(12, 0))
+
+        ctk.CTkButton(
+            btn_frame,
+            text="确定",
+            width=120,
+            height=36,
+            command=dialog.destroy,
+        ).pack(side="right")
+
     def setup_ui(self):
+        # === 标题栏 ===
+        title_frame = ctk.CTkFrame(self, fg_color="transparent")
+        title_frame.pack(pady=(15, 0), padx=20, fill="x")
+        title_frame.grid_columnconfigure(0, weight=1)
+
+        ctk.CTkLabel(
+            title_frame,
+            text="APK 纯净大师",
+            font=ctk.CTkFont(size=20, weight="bold"),
+        ).grid(row=0, column=0, sticky="w")
+
+        ctk.CTkButton(
+            title_frame,
+            text="关于",
+            width=70,
+            height=32,
+            command=self.show_about,
+        ).grid(row=0, column=1, sticky="e")
+
         # === 文件选择区 ===
         frame_file = ctk.CTkFrame(self)
-        frame_file.pack(pady=(15, 5), padx=20, fill="x")
+        frame_file.pack(pady=(10, 5), padx=20, fill="x")
 
         ctk.CTkLabel(frame_file, text="输入 APK:", width=75, anchor="e").grid(
             row=0, column=0, padx=10, pady=8)

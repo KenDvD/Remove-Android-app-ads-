@@ -4,7 +4,6 @@ __pycache__/
 *.egg-info/
 dist/
 build/
-*.spec
 
 # IDE
 .vscode/
@@ -15,6 +14,9 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Debug
+debug.log
 
 # Large binaries (optional - uncomment if needed)
 # *.jar

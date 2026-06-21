@@ -24,17 +24,13 @@ import hashlib
 import time
 from pathlib import Path
 
-# 更新源优先级: GitHub → Gitee (国内) → 直链
+# 更新源配置。目前仅配置 GitHub，如需国内镜像可在此添加 Gitee 源。
 UPDATE_SOURCES = [
     {
         "name": "GitHub",
-        "api_url": "https://api.github.com/repos/example/ad-block-patterns/releases/latest",
-        "download_url": "https://github.com/example/ad-block-patterns/releases/latest/download/ad_patterns.json",
-    },
-    {
-        "name": "Gitee",
-        "api_url": "https://gitee.com/api/v5/repos/example/ad-block-patterns/releases/latest",
-        "download_url": "https://gitee.com/example/ad-block-patterns/releases/latest/download/ad_patterns.json",
+        "api_url": "https://api.github.com/repos/KenDvD/Remove-Android-app-ads-/releases/latest",
+        "download_url": "https://github.com/KenDvD/Remove-Android-app-ads-/releases/latest/download/ad_patterns.json",
+        "checksum_url": "https://github.com/KenDvD/Remove-Android-app-ads-/releases/latest/download/ad_patterns.json.sha256",
     },
 ]
 
@@ -48,6 +44,26 @@ _CHECK_INTERVAL = 24 * 60 * 60
 _REQUEST_TIMEOUT = 10
 
 
+def _parse_version_tag(tag):
+    """从 release tag 中解析语义化版本元组 (major, minor, patch)。"""
+    import re
+    match = re.search(r"(\d+)(?:\.(\d+))?(?:\.(\d+))?", tag or "")
+    if match:
+        return (
+            int(match.group(1)),
+            int(match.group(2) or 0),
+            int(match.group(3) or 0),
+        )
+    return (0, 0, 0)
+
+
+def _version_to_string(version):
+    """把版本元组转换为可读的字符串。"""
+    if isinstance(version, tuple):
+        return ".".join(str(v) for v in version)
+    return str(version)
+
+
 def _get_target_path():
     """获取模式文件的完整路径。"""
     import remove_ads
@@ -55,16 +71,19 @@ def _get_target_path():
 
 
 def _get_local_version():
-    """读取本地模式文件的版本号。"""
+    """读取本地模式文件的版本号，返回语义化版本元组。"""
     target = _get_target_path()
     if not target.exists():
-        return 0
+        return (0, 0, 0)
     try:
         with open(target, "r", encoding="utf-8") as f:
             data = json.load(f)
-        return data.get("_meta", {}).get("version", 0)
+        ver = data.get("_meta", {}).get("version", 0)
+        if isinstance(ver, int):
+            return (ver, 0, 0)
+        return _parse_version_tag(str(ver))
     except (json.JSONDecodeError, IOError, KeyError):
-        return 0
+        return (0, 0, 0)
 
 
 def _sha256_file(filepath):
@@ -77,6 +96,15 @@ def _sha256_file(filepath):
         return hasher.hexdigest()
     except Exception:
         return None
+
+
+def _verify_sha256(content, expected_hash):
+    """校验内容 SHA256。expected_hash 为 None 时跳过校验。"""
+    if not expected_hash:
+        return True
+    expected = expected_hash.strip().split()[0].lower()
+    actual = hashlib.sha256(content.encode("utf-8")).hexdigest().lower()
+    return actual == expected
 
 
 def _http_get(url, timeout=_REQUEST_TIMEOUT):
@@ -100,7 +128,7 @@ def _http_get(url, timeout=_REQUEST_TIMEOUT):
 
 
 def _try_fetch_version(sources=None):
-    """从多个更新源尝试获取最新版本信息。返回 (source_name, version_number, download_url) 或 None。"""
+    """从多个更新源尝试获取最新版本信息。返回 (source_name, version_tuple, download_url, checksum_url) 或 None。"""
     if sources is None:
         sources = UPDATE_SOURCES
 
@@ -110,17 +138,12 @@ def _try_fetch_version(sources=None):
             continue
         try:
             release = json.loads(data)
-            # GitHub 和 Gitee API 都返回 tag_name
             tag = release.get("tag_name", "")
-            # 尝试从 tag 提取数字版本 (e.g. "v3" → 3)
-            version = 0
-            for char in tag:
-                if char.isdigit():
-                    version = version * 10 + int(char)
-            if version == 0 and "v" in tag.lower():
-                version = int(release.get("id", 0)) or 1
-            if version > 0:
-                return source["name"], version, source["download_url"]
+            version = _parse_version_tag(tag)
+            if version == (0, 0, 0) and "v" in tag.lower():
+                version = (1, 0, 0)
+            if version > (0, 0, 0):
+                return source["name"], version, source["download_url"], source.get("checksum_url")
         except (json.JSONDecodeError, KeyError, ValueError):
             continue
 
@@ -172,7 +195,7 @@ def check_and_update(sources=None, force=False, log=None):
 
     local_ver = _get_local_version()
     if log:
-        log(f"  本地版本: v{local_ver}")
+        log(f"  本地版本: v{_version_to_string(local_ver)}")
 
     # 尝试获取远程版本
     result = _try_fetch_version(sources)
@@ -184,13 +207,13 @@ def check_and_update(sources=None, force=False, log=None):
             log("  [警告] 无法连接更新服务器，将使用本地模式文件")
         return False
 
-    source_name, remote_ver, download_url = result
+    source_name, remote_ver, download_url, checksum_url = result
     if log:
-        log(f"  远程版本: v{remote_ver} (来源: {source_name})")
+        log(f"  远程版本: v{_version_to_string(remote_ver)} (来源: {source_name})")
 
     if remote_ver <= local_ver:
         status["last_check"] = now
-        status["last_version"] = local_ver
+        status["last_version"] = _version_to_string(local_ver)
         status["last_error"] = None
         _save_status(status)
         if log:
@@ -199,7 +222,7 @@ def check_and_update(sources=None, force=False, log=None):
 
     # 下载新文件
     if log:
-        log(f"  发现新版本 v{remote_ver}，正在下载...")
+        log(f"  发现新版本 v{_version_to_string(remote_ver)}，正在下载...")
 
     new_content = _http_get(download_url, timeout=30)
     if new_content is None:
@@ -208,6 +231,26 @@ def check_and_update(sources=None, force=False, log=None):
         _save_status(status)
         if log:
             log("  [错误] 下载失败")
+        return False
+
+    # 下载校验文件（可选）
+    expected_checksum = None
+    if checksum_url:
+        checksum_content = _http_get(checksum_url, timeout=30)
+        if checksum_content:
+            expected_checksum = checksum_content.strip().split()[0]
+            if log:
+                log("  已获取 SHA256 校验值")
+        elif log:
+            log("  [提示] 未找到 SHA256 校验文件，跳过校验")
+
+    # 校验文件完整性
+    if not _verify_sha256(new_content, expected_checksum):
+        status["last_check"] = now
+        status["last_error"] = "SHA256 校验失败"
+        _save_status(status)
+        if log:
+            log("  [错误] 下载的文件 SHA256 校验失败")
         return False
 
     # 验证 JSON 格式
@@ -241,13 +284,13 @@ def check_and_update(sources=None, force=False, log=None):
         remove_ads.reload_patterns()
 
         status["last_check"] = now
-        status["last_version"] = remote_ver
+        status["last_version"] = _version_to_string(remote_ver)
         status["last_source"] = source_name
         status["last_error"] = None
         _save_status(status)
 
         if log:
-            log(f"  ✓ 更新成功！模式数据库已升级到 v{remote_ver}")
+            log(f"  ✓ 更新成功！模式数据库已升级到 v{_version_to_string(remote_ver)}")
             log("  旧文件已备份为 ad_patterns.json.bak")
         return True
 
@@ -291,7 +334,7 @@ if __name__ == "__main__":
     print("=" * 40)
     print("  广告 SDK 模式文件更新工具")
     print("=" * 40)
-    print(f"  本地版本: v{_get_local_version()}")
+    print(f"  本地版本: v{_version_to_string(_get_local_version())}")
     print()
 
     status = get_update_status()
