@@ -490,5 +490,5 @@ MIT License — 详见 [LICENSE](LICENSE) 文件。
 ---
 
 <p align="center">
-  <sub>Made with ❤️ by reverse engineering enthusiasts</sub>
+  <sub>Made with ❤️ by KenDVD</sub>
 </p>
